@@ -5,7 +5,7 @@ A multi-agent system that converts natural language to SQL, audits it for securi
 ## Architecture
 
 - **Orchestration**: LangGraph
-- **Database**: Supabase (PostgreSQL)
+- **Database**: Supabase 
 - **API**: FastAPI
 - **Deployment**: Google Cloud Run (Docker)
 - **Package Manager**: uv
