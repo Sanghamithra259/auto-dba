@@ -1,0 +1,22 @@
+# Python environment artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+env/
+venv/
+.pytest_cache/
+
+# Sensitive Environment Configurations (CRITICAL)
+.env
+.env.*
+vars.env
+
+# IDE / Editor Specific Files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Project specific cache or local database states
+.chroma/

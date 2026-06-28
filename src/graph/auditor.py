@@ -1,15 +1,16 @@
+# src/graph/auditor.py
 from langchain_core.messages import SystemMessage, HumanMessage
-from langchain_openai import ChatOpenAI
+from langchain_groq import ChatGroq  # Changed this
 from src.graph.state import AgentState
 from src.graph.prompts import AUDITOR_SYSTEM_PROMPT
 import os
 
-llm = ChatOpenAI(api_key=os.getenv("OPENAI_API_KEY"), model="gpt-4o")
+# 🔄 Update the model string here
+llm = ChatGroq(groq_api_key=os.getenv("GROQ_API_KEY"), model="llama-3.1-8b-instant")
+
+# ... rest of your auditor_node function remains exactly the same!
 
 def auditor_node(state: AgentState) -> AgentState:
-    """
-    Auditor agent that reviews SQL for security and performance.
-    """
     sql_query = state.get("current_sql", "")
     
     messages = [
@@ -20,28 +21,22 @@ def auditor_node(state: AgentState) -> AgentState:
     response = llm.invoke(messages)
     content = response.content.strip()
     
-    # Check for approval or rejection based on protocol
-    if "REJECTED:" in content:
-        # Extract the reasoning
-        # Format "REJECTED: [Reasoning]"
+    # Use case-insensitive checking and split cleanly
+    if "REJECTED:" in content.upper():
         parts = content.split("REJECTED:", 1)
-        feedback = parts[1].strip() if len(parts) > 1 else "Unknown rejection reason."
-        # Keep the SQL but mark feedback so we can loop back
+        feedback = parts[1].strip() if len(parts) > 1 else "Compliance violation flagged by auditor."
         return {"feedback": feedback}
         
-    elif "APPROVED:" in content:
-        # If approved, we might want to ensure the SQL is passed through cleanly 
-        # distinct from what LLM returned if it modified it, but usually approval means 'current_sql' is fine.
-        # We assume 'content' might contain 'APPROVED: <SQL>' or just 'APPROVED: <SQL> ...'
-        # For simplicity, we trust the 'current_sql' if the Auditor approved it, 
-        # unless Auditor returns a modified version. The prompt says OUTPUT 'APPROVED: [SQL_QUERY]'
-        # Let's try to extract it just in case.
+    elif "APPROVED:" in content.upper():
         parts = content.split("APPROVED:", 1)
         approved_sql = parts[1].strip() if len(parts) > 1 else sql_query
         
-        # Clear feedback to indicate success
-        return {"current_sql": approved_sql, "feedback": None}
+        # Clean up any accidental markdown blocks the auditor might replicate
+        if approved_sql.startswith("```sql"): approved_sql = approved_sql[6:]
+        if approved_sql.endswith("```"): approved_sql = approved_sql[:-3]
+        
+        return {"current_sql": approved_sql.strip(), "feedback": None}
         
     else:
-        # Fallback
-        return {"feedback": f"Auditor returned invalid format: {content}"}
+        # Fallback if the model hallucinated the response protocol
+        return {"feedback": f"Auditor failed parsing protocol. Output: {content}"}
