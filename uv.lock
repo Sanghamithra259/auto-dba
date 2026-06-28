@@ -37,6 +37,7 @@ name = "auto-dba"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
+    { name = "chox-ai-sdk" },
     { name = "fastapi" },
     { name = "langchain-core" },
     { name = "langchain-groq" },
@@ -50,6 +51,7 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
+    { name = "chox-ai-sdk", specifier = ">=0.1.0" },
     { name = "fastapi", specifier = ">=0.138.1" },
     { name = "langchain-core", specifier = ">=1.4.8" },
     { name = "langchain-groq", specifier = ">=1.1.3" },
@@ -125,6 +127,15 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/7a/1d/29d32e0fb40864b1f878c7f5a0b343ae676c6e2b271a2d55cc3a152391da/charset_normalizer-3.4.7-cp314-cp314t-win_amd64.whl", hash = "sha256:03853ed82eeebbce3c2abfdbc98c96dc205f32a79627688ac9a27370ea61a49c", size = 174168, upload-time = "2026-04-02T09:27:49.795Z" },
     { url = "https://files.pythonhosted.org/packages/de/32/d92444ad05c7a6e41fb2036749777c163baf7a0301a040cb672d6b2b1ae9/charset_normalizer-3.4.7-cp314-cp314t-win_arm64.whl", hash = "sha256:c35abb8bfff0185efac5878da64c45dafd2b37fb0383add1be155a763c1f083d", size = 153018, upload-time = "2026-04-02T09:27:51.116Z" },
     { url = "https://files.pythonhosted.org/packages/db/8f/61959034484a4a7c527811f4721e75d02d653a35afb0b6054474d8185d4c/charset_normalizer-3.4.7-py3-none-any.whl", hash = "sha256:3dce51d0f5e7951f8bb4900c257dad282f49190fdbebecd4ba99bcc41fef404d", size = 61958, upload-time = "2026-04-02T09:28:37.794Z" },
+]
+
+[[package]]
+name = "chox-ai-sdk"
+version = "0.1.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/9f/a1/2abd4c9cd93fde24a8b66af2cdd63cfd9cfaa1cfe3f390bf07e6154ab210/chox_ai_sdk-0.1.0.tar.gz", hash = "sha256:16c5948fe4d7d51c9d8df306c15eb86340ba57832d4809aed483d45772ef9988", size = 16434, upload-time = "2026-03-10T03:51:26.746Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/7e/14/0da6869bab3d4ebfe2251918625c290271ea76a737f47d6e2c5ddd523070/chox_ai_sdk-0.1.0-py3-none-any.whl", hash = "sha256:9e87b4f4cfdf1b20982dfd5b7184b37c9220bc5303710ee32a3a4c83638c6041", size = 11751, upload-time = "2026-03-10T03:51:24.111Z" },
 ]
 
 [[package]]
